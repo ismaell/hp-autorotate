@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=hp-autorotate
+Type=Service
+Name=Auto-rotation support for HP

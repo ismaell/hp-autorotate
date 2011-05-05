@@ -1,0 +1,29 @@
+Dependencies
+============
+This package requires Rakitzis' variant of the rc shell.
+
+On debian-based distributions you can install it by running:
+
+  apt-get install rc
+
+Similar method should work for almost any GNU/Linux distribution and other
+decent operating systems, like *BSD.
+
+If you want to run it under an original-flavour rc, you just have to replace
+'else' with 'if not'. That's it.
+
+
+Installation
+============
+First you need to "build" it. You can do so with the following commands:
+
+  ./configure && make
+
+Once build, it can be installed by running the following as root:
+
+  make install
+
+From now on it should start once the user logins.
+
+Of course the 'configure' script supports a lot of options, just run it with
+the --help parameter to see what it can do for you.

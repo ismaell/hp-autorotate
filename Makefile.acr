@@ -1,0 +1,27 @@
+INSTALL_DATA=install -m 644
+INSTALL_BIN=install -m 755
+MKDIR=install -m755 -d
+RM=rm
+
+VPATH=@VPATH@
+
+SCRIPTS = hp-autorotate
+ASFILES = hp-autorotate.desktop
+
+$(SCRIPTS): %:%.in
+	sed '1s%.*%#!@RCPATH@%' $< > $@
+
+.PHONY: all install clean distclean
+
+all: $(SCRIPTS)
+
+install: all
+	$(MKDIR) @BINDIR@ @XDGCONFDIR@/autostart
+	$(INSTALL_BIN) $(SCRIPTS) @BINDIR@
+	$(INSTALL_DATA) $(ASFILES) @XDGCONFDIR@/autostart
+
+clean:
+	$(RM) $(SCRIPTS)
+
+distclean: clean
+	$(RM) Makefile
