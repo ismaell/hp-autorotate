@@ -19,7 +19,7 @@ First you need to "build" it. You can do so with the following commands:
 
   ./configure && make
 
-Once build, it can be installed by running the following as root:
+Once built, it can be installed by running the following as root:
 
   make install
 
