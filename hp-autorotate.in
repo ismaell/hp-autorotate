@@ -25,16 +25,18 @@ fn warn {
 }
 
 fn sigterm {
-  rotate_it NONE normal
+  echo NONE normal | rotate_it
   if (test -e $pidfile)
     rm -f $pidfile
 }
 
 fn rotate_it {
-  for (i in $inputdevs) {
-    xsetwacom set $i Rotate $1
+  p=() \
+  while (p=`{awk 'BEGIN{l=getline!=1;if(!l)print;exit l}'} && ~ $bqstatus 0) {
+      for (i in $inputdevs)
+        xsetwacom set $i Rotate $p(1)
+      xrandr -o $p(2)
   }
-  xrandr -o $2
 }
 
 events=/sys/devices/platform/hp-wmi/tablet
@@ -68,20 +70,18 @@ inputdevs=`{
   awk -F'(id=| *\[)' '/Wacom.* (touch|eraser|stylus)/{print $2}'
 }
 
-old=n
-while (true) {
-  new=`{cat /sys/devices/platform/hp-wmi/tablet}
-  if (! ~ $new $old) {
-    switch ($new) {
-    # also it's possible:
-    #   rotate_it CCW  left
-    #   rotate_it CW   right
-      case 1
-        rotate_it HALF inverted
-      case 0
-        rotate_it NONE normal
-    }
-    old=$new
-  }
-  sleep 1
-}
+awk -vf=$events 'BEGIN {
+	# also possible:
+	# CCW  left
+	# CW   right
+	pos[1]="HALF inverted"
+	pos[0]="NONE normal"
+	for (;;) {
+		getline new < f
+		if (new != old && new in pos) {
+			print pos[new]
+			old = new
+		}
+		system("sleep 1")
+	}
+}' | rotate_it
