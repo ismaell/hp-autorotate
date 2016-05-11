@@ -37,7 +37,8 @@ fn rotate_it {
   xrandr -o $2
 }
 
-if (! test -e /sys/devices/platform/hp-wmi/tablet) {
+events=/sys/devices/platform/hp-wmi/tablet
+if (! test -e $events) {
   if (awk '/^hp_wmi/{exit 1}' /proc/modules) {
     die 'hp_wmi driver not loaded'
   } else {
