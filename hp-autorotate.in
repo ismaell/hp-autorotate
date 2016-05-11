@@ -17,13 +17,18 @@
 #
 
 fn die {
-  echo $* >[1=2]
+  echo E: $* >[1=2]
   exit 1
+}
+
+fn warn {
+  echo W: $* >[1=2]
 }
 
 fn sigterm {
   rotate_it NONE normal
-  rm $pidfile
+  if (test -e $pidfile)
+    rm -f $pidfile
 }
 
 fn rotate_it {
@@ -43,8 +48,18 @@ if (! test -e /sys/devices/platform/hp-wmi/tablet) {
 
 test -z $DISPLAY && die '$DISPLAY not set'
 
-pidfile=$HOME/.`{basename $0}^-lock
-test -e $pidfile && die 'Already running? if not, try removing' $pidfile
+bname=`{basename $0}
+pidfile=$HOME/.$bname-lock
+if (test -e $pidfile) {
+  oldpid=`{cat $pidfile} {
+    if (~ $0 `{readlink /proc/$oldpid/exe}) {
+      warn $bname already running (pid=$oldpid), killing it.
+      kill $oldpid
+    } else {
+      warn stale pidfile, overwritting it.
+    }
+  }
+}
 
 echo $pid > $pidfile
 
