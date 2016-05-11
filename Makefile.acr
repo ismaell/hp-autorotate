@@ -11,9 +11,6 @@ RM=rm
 SCRIPTS = hp-autorotate
 ASFILES = hp-autorotate.desktop
 
-$(SCRIPTS): %:%.in
-	sed '1s%.*%#!@RCPATH@%' $< > $@
-
 .PHONY: all install clean distclean
 
 all: $(SCRIPTS)
