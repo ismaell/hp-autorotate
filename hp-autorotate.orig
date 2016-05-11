@@ -1,4 +1,4 @@
-#!/bin/rc
+#!@RCPATH@
 #
 # Copyright 2011, 2016 Ismael Luceno <ismael@iodev.co.uk>
 #
