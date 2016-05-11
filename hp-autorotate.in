@@ -42,7 +42,7 @@ if (! test -e /sys/devices/platform/hp-wmi/tablet) {
   if (awk '/^hp_wmi/{exit 1}' /proc/modules) {
     die 'hp_wmi driver not loaded'
   } else {
-    die 'Are you sure your machine is an HP tablet?'
+    die 'Are you sure your machine is a tablet?'
   }
 }
 
