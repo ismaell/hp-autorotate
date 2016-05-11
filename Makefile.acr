@@ -14,11 +14,17 @@ ASFILES = hp-autorotate.desktop
 .PHONY: all install clean distclean
 
 all: $(SCRIPTS)
+install: install-asfiles install-scripts
 
-install: all
-	$(MKDIR) @BINDIR@ @XDGCONFDIR@/autostart
-	$(INSTALL_BIN) $(SCRIPTS) @BINDIR@
-	$(INSTALL_DATA) $(ASFILES) @XDGCONFDIR@/autostart
+.PHONY: install-asfiles
+install-asfiles: $(ASFILES)
+	$(MKDIR) $(asdir)
+	$(INSTALL_DATA) $^ $(asdir)
+
+.PHONY: install-scripts
+install-scripts: $(SCRIPTS)
+	$(MKDIR) $(bindir)
+	$(INSTALL_BIN) $^ $(bindir)
 
 clean:
 	$(RM) $(SCRIPTS)
