@@ -50,8 +50,7 @@ echo $pid > $pidfile
 
 inputdevs=`{
   xinput --list |
-  grep 'Wacom.* \(touch\|eraser\|stylus\)' |
-  sed 's/.*id=\([0-9]*\).*/\1/'
+  awk -F'(id=| *\[)' '/Wacom.* (touch|eraser|stylus)/{print $2}'
 }
 
 old=n
