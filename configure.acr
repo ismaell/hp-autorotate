@@ -3,7 +3,7 @@ REQUIRE_ACR_VERSION 0.5
 ARG_WITH XDGCONFDIR=/etc/xdg xdgconfdir XDG configuration directory ;
 
 PKGNAME hg-autorotate
-CONTACT Ismael Luceno ; ismael.luceno@gmail.com
+CONTACT Ismael Luceno ; ismael@iodev.co.uk
 VERSION 1.0
 
 CHECK_PROGRAM! RCPATH rc
